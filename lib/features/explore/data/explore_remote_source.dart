@@ -7,16 +7,24 @@ class ExploreRemoteSource {
 
   final Dio _dio;
 
-  Future<List<dynamic>> searchMovies(String query) async {
+  Future<List<dynamic>> searchMovies(String query, {int page = 1}) async {
     final response = await _dio.get(
       TmdbEndpoints.searchMovie,
-      queryParameters: {'query': query},
+      queryParameters: {
+        'query': query,
+        'page': page,
+      },
     );
     return (response.data['results'] as List<dynamic>?) ?? [];
   }
 
-  Future<List<dynamic>> getSuggestedSearches() async {
-    final response = await _dio.get(TmdbEndpoints.popularMovies);
+  Future<List<dynamic>> getSuggestedSearches({int page = 1}) async {
+    final response = await _dio.get(
+      TmdbEndpoints.popularMovies,
+      queryParameters: {
+        'page': page,
+      },
+    );
     return (response.data['results'] as List<dynamic>?) ?? [];
   }
 }

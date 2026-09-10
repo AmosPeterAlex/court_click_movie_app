@@ -11,6 +11,7 @@ class MediaThumbnail extends StatelessWidget {
     this.height,
     this.fit = BoxFit.cover,
     this.borderRadius = 4.0,
+    this.heroTag,
   });
 
   final String imageUrl;
@@ -18,13 +19,16 @@ class MediaThumbnail extends StatelessWidget {
   final double? height;
   final BoxFit fit;
   final double borderRadius;
+  final String? heroTag;
 
   @override
   Widget build(BuildContext context) {
     final clipRadius = BorderRadius.circular(borderRadius);
 
+    Widget imageContent;
+
     if (imageUrl.isEmpty) {
-      return ClipRRect(
+      imageContent = ClipRRect(
         borderRadius: clipRadius,
         child: Container(
           width: width,
@@ -39,33 +43,42 @@ class MediaThumbnail extends StatelessWidget {
           ),
         ),
       );
-    }
-
-    return ClipRRect(
-      borderRadius: clipRadius,
-      child: CachedNetworkImage(
-        imageUrl: imageUrl,
-        width: width,
-        height: height,
-        fit: fit,
-        placeholder: (context, url) => SkeletonLoader.box(
+    } else {
+      imageContent = ClipRRect(
+        borderRadius: clipRadius,
+        child: CachedNetworkImage(
+          imageUrl: imageUrl,
           width: width,
           height: height,
-          borderRadius: borderRadius,
-        ),
-        errorWidget: (context, url, error) => Container(
-          width: width,
-          height: height,
-          color: StreamPalette.surfaceElevated,
-          child: const Center(
-            child: Icon(
-              Icons.broken_image_outlined,
-              color: StreamPalette.textHint,
-              size: 28,
+          fit: fit,
+          placeholder: (context, url) => SkeletonLoader.box(
+            width: width,
+            height: height,
+            borderRadius: borderRadius,
+          ),
+          errorWidget: (context, url, error) => Container(
+            width: width,
+            height: height,
+            color: StreamPalette.surfaceElevated,
+            child: const Center(
+              child: Icon(
+                Icons.broken_image_outlined,
+                color: StreamPalette.textHint,
+                size: 28,
+              ),
             ),
           ),
         ),
-      ),
-    );
+      );
+    }
+
+    if (heroTag != null && heroTag!.isNotEmpty) {
+      return Hero(
+        tag: heroTag!,
+        child: imageContent,
+      );
+    }
+
+    return imageContent;
   }
 }

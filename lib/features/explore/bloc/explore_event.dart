@@ -23,3 +23,11 @@ final class SearchQueryChanged extends ExploreEvent {
 final class ClearSearchQuery extends ExploreEvent {
   const ClearSearchQuery();
 }
+
+final class LoadMoreResults extends ExploreEvent {
+  const LoadMoreResults();
+}
+
+final class RefreshExplore extends ExploreEvent {
+  const RefreshExplore();
+}

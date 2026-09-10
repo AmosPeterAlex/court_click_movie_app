@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import '../../foundation/theme/stream_palette.dart';
 import '../../foundation/theme/stream_typography.dart';
+import '../../foundation/theme/theme_cubit.dart';
 import '../user_accounts/data/default_accounts.dart';
 import '../user_accounts/widgets/account_avatar_card.dart';
 
@@ -215,6 +217,46 @@ class AccountHubScreen extends StatelessWidget {
                     ),
                   ],
                 ),
+              ),
+
+              // Dark / Light Theme Mode Toggle
+              BlocBuilder<ThemeCubit, ThemeMode>(
+                builder: (context, themeMode) {
+                  final isDark = themeMode == ThemeMode.dark;
+                  return Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Icon(
+                              isDark ? Icons.dark_mode : Icons.light_mode,
+                              color: Theme.of(context).colorScheme.onSurface,
+                              size: 20,
+                            ),
+                            const SizedBox(width: 12),
+                            Text(
+                              'Dark Mode',
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w600,
+                                color: Theme.of(context).colorScheme.onSurface,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Switch(
+                          value: isDark,
+                          activeThumbColor: StreamPalette.primary,
+                          onChanged: (_) {
+                            context.read<ThemeCubit>().toggleTheme();
+                          },
+                        ),
+                      ],
+                    ),
+                  );
+                },
               ),
 
               // Setting links

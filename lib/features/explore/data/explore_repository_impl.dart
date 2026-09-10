@@ -18,9 +18,9 @@ class ExploreRepositoryImpl implements ExploreRepository {
   }
 
   @override
-  Future<ResourceResult<List<MediaItem>>> queryTitles(String searchTerm) async {
+  Future<ResourceResult<List<MediaItem>>> queryTitles(String searchTerm, {int page = 1}) async {
     try {
-      final raw = await remoteSource.searchMovies(searchTerm);
+      final raw = await remoteSource.searchMovies(searchTerm, page: page);
       return Success(_extractMediaList(raw));
     } on DioException catch (e) {
       return Failure(mapDioError(e));
@@ -30,9 +30,9 @@ class ExploreRepositoryImpl implements ExploreRepository {
   }
 
   @override
-  Future<ResourceResult<List<MediaItem>>> fetchSuggestedSearches() async {
+  Future<ResourceResult<List<MediaItem>>> fetchSuggestedSearches({int page = 1}) async {
     try {
-      final raw = await remoteSource.getSuggestedSearches();
+      final raw = await remoteSource.getSuggestedSearches(page: page);
       return Success(_extractMediaList(raw));
     } on DioException catch (e) {
       return Failure(mapDioError(e));

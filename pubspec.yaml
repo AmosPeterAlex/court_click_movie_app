@@ -31,20 +31,28 @@ dependencies:
   flutter:
     sdk: flutter
 
+  # UI & Design Components
   cupertino_icons: ^1.0.8
+  cached_network_image: ^3.4.1
+  shimmer: ^3.0.0
+
+  # State Management & Dependency Injection
   flutter_bloc: ^9.0.0
   equatable: ^2.0.7
   get_it: ^8.0.3
+
+  # Networking & Navigation
   dio: ^5.8.0+1
   go_router: ^15.1.2
-  cached_network_image: ^3.4.1
-  shimmer: ^3.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
+  # Linting & BLoC Testing
   flutter_lints: ^6.0.0
+  bloc_test: ^10.0.0
+  mocktail: ^1.0.5
 
 flutter:
   uses-material-design: true

@@ -23,18 +23,29 @@ class ExploreScreen extends StatefulWidget {
 class _ExploreScreenState extends State<ExploreScreen> {
   final TextEditingController _controller = TextEditingController();
   final EventDebouncer _debouncer = EventDebouncer();
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
+    _scrollController.addListener(_onScroll);
     context.read<ExploreBloc>().add(const LoadExploreSuggestions());
   }
 
   @override
   void dispose() {
+    _scrollController.removeListener(_onScroll);
+    _scrollController.dispose();
     _controller.dispose();
     _debouncer.dispose();
     super.dispose();
+  }
+
+  void _onScroll() {
+    if (_scrollController.hasClients &&
+        _scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 200) {
+      context.read<ExploreBloc>().add(const LoadMoreResults());
+    }
   }
 
   void _onSearchChanged(String query) {
@@ -157,25 +168,53 @@ class _ExploreScreenState extends State<ExploreScreen> {
                     headerTitle = 'Top Searches';
                   }
 
-                  return ListView.builder(
-                    itemCount: items.length + 1,
-                    itemBuilder: (context, index) {
-                      if (index == 0) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                          child: Text(
-                            headerTitle,
-                            style: StreamTypography.headline.copyWith(fontSize: 20),
-                          ),
-                        );
-                      }
-                      final item = items[index - 1];
-                      return SearchResultTile(
-                        item: item,
-                        isTop10: index == 1,
-                        onTap: () => _showDetails(item),
-                      );
+                  final bool isLoadingMore = (state is ExploreSearchResultsLoaded && state.isLoadingMore) ||
+                      (state is ExploreSuggestionsLoaded && state.isLoadingMore);
+
+                  return RefreshIndicator(
+                    color: StreamPalette.primary,
+                    backgroundColor: StreamPalette.surface,
+                    onRefresh: () async {
+                      context.read<ExploreBloc>().add(const RefreshExplore());
                     },
+                    child: ListView.builder(
+                      controller: _scrollController,
+                      itemCount: items.length + 1 + (isLoadingMore ? 1 : 0),
+                      itemBuilder: (context, index) {
+                        if (index == 0) {
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                            child: Text(
+                              headerTitle,
+                              style: StreamTypography.headline.copyWith(fontSize: 20),
+                            ),
+                          );
+                        }
+
+                        if (index == items.length + 1) {
+                          return const Padding(
+                            padding: EdgeInsets.symmetric(vertical: 20),
+                            child: Center(
+                              child: SizedBox(
+                                width: 24,
+                                height: 24,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2.5,
+                                  color: StreamPalette.primary,
+                                ),
+                              ),
+                            ),
+                          );
+                        }
+
+                        final item = items[index - 1];
+                        return SearchResultTile(
+                          item: item,
+                          isTop10: index == 1,
+                          onTap: () => _showDetails(item),
+                        );
+                      },
+                    ),
                   );
                 },
               ),

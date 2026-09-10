@@ -12,10 +12,14 @@ import '../../features/premieres/data/premieres_remote_source.dart';
 import '../../features/premieres/data/premieres_repository_impl.dart';
 import '../../features/premieres/domain/premieres_repository.dart';
 import '../../foundation/http/rest_client.dart';
+import '../../foundation/theme/theme_cubit.dart';
 
 final GetIt sl = GetIt.instance;
 
 Future<void> setupServiceLocator() async {
+  // Theme Cubit
+  sl.registerLazySingleton<ThemeCubit>(() => ThemeCubit());
+
   // Network Client
   sl.registerLazySingleton<RestClient>(() => RestClient());
 

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:court_click_movie_app/core/service_locator/app_injector.dart';
@@ -14,29 +15,62 @@ abstract final class NavigationGraph {
     routes: [
       GoRoute(
         path: '/',
-        builder: (context, state) => const SplashScreen(),
+        pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          child: const SplashScreen(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(opacity: animation, child: child);
+          },
+        ),
       ),
       GoRoute(
         path: '/profiles',
-        builder: (context, state) => const ProfilePickerScreen(),
+        pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          child: const ProfilePickerScreen(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(
+              opacity: CurveTween(curve: Curves.easeInOut).animate(animation),
+              child: child,
+            );
+          },
+        ),
       ),
       GoRoute(
         path: '/main',
-        builder: (context, state) {
+        pageBuilder: (context, state) {
           final profileName = (state.extra as String?) ?? 'Emenalo';
-          return MultiBlocProvider(
-            providers: [
-              BlocProvider<DiscoverBloc>(
-                create: (_) => sl<DiscoverBloc>(),
-              ),
-              BlocProvider<ExploreBloc>(
-                create: (_) => sl<ExploreBloc>(),
-              ),
-              BlocProvider<PremieresBloc>(
-                create: (_) => sl<PremieresBloc>(),
-              ),
-            ],
-            child: MainScaffold(profileName: profileName),
+          return CustomTransitionPage(
+            key: state.pageKey,
+            child: MultiBlocProvider(
+              providers: [
+                BlocProvider<DiscoverBloc>(
+                  create: (_) => sl<DiscoverBloc>(),
+                ),
+                BlocProvider<ExploreBloc>(
+                  create: (_) => sl<ExploreBloc>(),
+                ),
+                BlocProvider<PremieresBloc>(
+                  create: (_) => sl<PremieresBloc>(),
+                ),
+              ],
+              child: MainScaffold(profileName: profileName),
+            ),
+            transitionsBuilder: (context, animation, secondaryAnimation, child) {
+              return FadeTransition(
+                opacity: CurveTween(curve: Curves.easeInOut).animate(animation),
+                child: SlideTransition(
+                  position: Tween<Offset>(
+                    begin: const Offset(0.04, 0),
+                    end: Offset.zero,
+                  ).animate(CurvedAnimation(
+                    parent: animation,
+                    curve: Curves.easeOutCubic,
+                  )),
+                  child: child,
+                ),
+              );
+            },
           );
         },
       ),
