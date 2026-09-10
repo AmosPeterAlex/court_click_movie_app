@@ -5,24 +5,24 @@ abstract final class DefaultAccounts {
   static const List<UserAccount> profiles = [
     UserAccount(
       id: 'profile_1',
-      name: 'Alex',
+      name: 'Emenalo',
       color: StreamPalette.profileBlue,
     ),
     UserAccount(
       id: 'profile_2',
-      name: 'Sarah',
+      name: 'Onyeka',
       color: StreamPalette.profileYellow,
     ),
     UserAccount(
       id: 'profile_3',
-      name: 'Kids',
-      color: StreamPalette.profilePurple,
-      isKids: true,
+      name: 'Thelma',
+      color: StreamPalette.profileRed,
     ),
     UserAccount(
       id: 'profile_4',
-      name: 'Michael',
-      color: StreamPalette.profileRed,
+      name: 'Kids',
+      color: StreamPalette.profilePurple,
+      isKids: true,
     ),
   ];
 }
