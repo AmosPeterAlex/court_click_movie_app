@@ -1,11 +1,11 @@
 {
-    "name": "court_click_movie_app",
-    "short_name": "court_click_movie_app",
+    "name": "Court Click Test",
+    "short_name": "CourtClick",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "background_color": "#000000",
+    "theme_color": "#E50914",
+    "description": "Court Click Test – A Netflix-style movie app.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
@@ -33,3 +33,4 @@
         }
     ]
 }
+

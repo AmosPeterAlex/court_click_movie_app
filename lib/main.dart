@@ -28,7 +28,7 @@ class CourtClickMovieApp extends StatelessWidget {
       child: BlocBuilder<ThemeCubit, ThemeMode>(
         builder: (context, themeMode) {
           return MaterialApp.router(
-            title: 'StreamPulse',
+            title: 'Court Click Test',
             debugShowCheckedModeBanner: false,
             theme: StreamTheme.lightTheme,
             darkTheme: StreamTheme.darkTheme,
