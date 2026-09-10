@@ -50,3 +50,6 @@ app.*.map.json
 # Blueprint and internal specs
 lib/PROJECT_REWRITE_BLUEPRINT.md
 *.blueprint.md
+
+# API Configuration and Secrets
+config.json
