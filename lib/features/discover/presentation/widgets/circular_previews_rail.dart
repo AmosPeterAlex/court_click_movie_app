@@ -81,7 +81,7 @@ class CircularPreviewsRail extends StatelessWidget {
                               end: Alignment.bottomCenter,
                               colors: [
                                 Colors.transparent,
-                                Colors.black.withOpacity(0.85),
+                                Colors.black.withValues(alpha: 0.85),
                               ],
                             ),
                           ),
