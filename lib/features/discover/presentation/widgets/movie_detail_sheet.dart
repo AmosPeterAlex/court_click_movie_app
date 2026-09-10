@@ -14,10 +14,12 @@ class MovieDetailSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Container(
-      decoration: const BoxDecoration(
-        color: StreamPalette.surface,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      decoration: BoxDecoration(
+        color: theme.cardColor,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
       ),
       padding: const EdgeInsets.fromLTRB(20, 12, 20, 32),
       child: Column(
@@ -31,7 +33,7 @@ class MovieDetailSheet extends StatelessWidget {
               height: 4,
               margin: const EdgeInsets.only(bottom: 16),
               decoration: BoxDecoration(
-                color: StreamPalette.surfaceVariant,
+                color: theme.dividerColor,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -50,7 +52,11 @@ class MovieDetailSheet extends StatelessWidget {
           // Title
           Text(
             item.title,
-            style: StreamTypography.titleLarge.copyWith(fontSize: 20),
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: theme.colorScheme.onSurface,
+            ),
           ),
           const SizedBox(height: 8),
           // Metadata row (Rating, Date, Genres)
@@ -139,7 +145,11 @@ class MovieDetailSheet extends StatelessWidget {
           if (item.overview.isNotEmpty) ...[
             Text(
               item.overview,
-              style: StreamTypography.body.copyWith(fontSize: 13, height: 1.4),
+              style: TextStyle(
+                fontSize: 13,
+                height: 1.4,
+                color: theme.colorScheme.onSurface.withValues(alpha: 0.8),
+              ),
               maxLines: 4,
               overflow: TextOverflow.ellipsis,
             ),
@@ -148,7 +158,10 @@ class MovieDetailSheet extends StatelessWidget {
           // Genres
           Text(
             item.formattedGenres,
-            style: StreamTypography.genreTags,
+            style: TextStyle(
+              fontSize: 12,
+              color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
+            ),
           ),
         ],
       ),

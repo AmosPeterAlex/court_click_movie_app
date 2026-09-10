@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:court_click_movie_app/features/discover/domain/media_item.dart';
 import 'package:court_click_movie_app/foundation/components/media_thumbnail.dart';
 import 'package:court_click_movie_app/foundation/theme/stream_palette.dart';
-import 'package:court_click_movie_app/foundation/theme/stream_typography.dart';
 
 class NotificationItemRow extends StatelessWidget {
   const NotificationItemRow({
@@ -16,9 +15,12 @@ class NotificationItemRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
     return Container(
       margin: const EdgeInsets.only(bottom: 2),
-      color: StreamPalette.notificationBg,
+      color: isDark ? StreamPalette.notificationBg : theme.cardColor,
       child: InkWell(
         onTap: onTap,
         child: Padding(
@@ -38,19 +40,19 @@ class NotificationItemRow extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Text(
+                    Text(
                       'New Arrival',
                       style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w600,
-                        color: StreamPalette.textPrimary,
+                        color: theme.colorScheme.onSurface,
                       ),
                     ),
                     const SizedBox(height: 2),
                     Text(
                       item.title,
-                      style: StreamTypography.bodySmall.copyWith(
-                        color: StreamPalette.textSecondary,
+                      style: TextStyle(
+                        color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
                         fontSize: 12,
                       ),
                       maxLines: 1,

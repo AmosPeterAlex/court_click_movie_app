@@ -10,7 +10,6 @@ import 'package:court_click_movie_app/features/premieres/presentation/widgets/up
 import 'package:court_click_movie_app/foundation/components/failure_banner.dart';
 import 'package:court_click_movie_app/foundation/components/skeleton_loader.dart';
 import 'package:court_click_movie_app/foundation/theme/stream_palette.dart';
-import 'package:court_click_movie_app/foundation/theme/stream_typography.dart';
 
 class PremieresScreen extends StatefulWidget {
   const PremieresScreen({super.key});
@@ -37,8 +36,10 @@ class _PremieresScreenState extends State<PremieresScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Scaffold(
-      backgroundColor: StreamPalette.background,
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: SafeArea(
         child: BlocBuilder<PremieresBloc, PremieresState>(
           builder: (context, state) {
@@ -64,7 +65,7 @@ class _PremieresScreenState extends State<PremieresScreen> {
             if (state is PremieresLoaded) {
               return RefreshIndicator(
                 color: StreamPalette.primary,
-                backgroundColor: StreamPalette.surface,
+                backgroundColor: theme.cardColor,
                 onRefresh: () async {
                   context.read<PremieresBloc>().add(const RefreshPremieresFeed());
                 },
@@ -94,7 +95,11 @@ class _PremieresScreenState extends State<PremieresScreen> {
                           const SizedBox(width: 10),
                           Text(
                             'Notifications',
-                            style: StreamTypography.sectionHeader.copyWith(fontSize: 16),
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: theme.colorScheme.onSurface,
+                            ),
                           ),
                         ],
                       ),

@@ -11,7 +11,6 @@ import 'package:court_click_movie_app/foundation/components/no_results_display.d
 import 'package:court_click_movie_app/foundation/components/skeleton_loader.dart';
 import 'package:court_click_movie_app/foundation/helpers/event_debouncer.dart';
 import 'package:court_click_movie_app/foundation/theme/stream_palette.dart';
-import 'package:court_click_movie_app/foundation/theme/stream_typography.dart';
 
 class ExploreScreen extends StatefulWidget {
   const ExploreScreen({super.key});
@@ -74,8 +73,11 @@ class _ExploreScreenState extends State<ExploreScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
     return Scaffold(
-      backgroundColor: StreamPalette.background,
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -86,23 +88,27 @@ class _ExploreScreenState extends State<ExploreScreen> {
               height: 44,
               margin: const EdgeInsets.symmetric(horizontal: 16),
               decoration: BoxDecoration(
-                color: StreamPalette.searchBarBg,
+                color: isDark ? StreamPalette.searchBarBg : const Color(0xFFE5E5EA),
                 borderRadius: BorderRadius.circular(4),
               ),
               child: Row(
                 children: [
                   const SizedBox(width: 12),
-                  const Icon(Icons.search, color: StreamPalette.searchIconHint, size: 20),
+                  Icon(
+                    Icons.search,
+                    color: isDark ? StreamPalette.searchIconHint : const Color(0xFF8E8E93),
+                    size: 20,
+                  ),
                   const SizedBox(width: 10),
                   Expanded(
                     child: TextField(
                       controller: _controller,
                       onChanged: _onSearchChanged,
-                      style: const TextStyle(color: Colors.white, fontSize: 14),
-                      decoration: const InputDecoration(
+                      style: TextStyle(color: theme.colorScheme.onSurface, fontSize: 14),
+                      decoration: InputDecoration(
                         hintText: 'Search for a show, movie, genre, etc.',
                         hintStyle: TextStyle(
-                          color: StreamPalette.searchIconHint,
+                          color: isDark ? StreamPalette.searchIconHint : const Color(0xFF8E8E93),
                           fontSize: 14,
                         ),
                         border: InputBorder.none,
@@ -113,13 +119,21 @@ class _ExploreScreenState extends State<ExploreScreen> {
                   ),
                   if (_controller.text.isNotEmpty)
                     IconButton(
-                      icon: const Icon(Icons.close, color: StreamPalette.searchIconHint, size: 18),
+                      icon: Icon(
+                        Icons.close,
+                        color: isDark ? StreamPalette.searchIconHint : const Color(0xFF8E8E93),
+                        size: 18,
+                      ),
                       onPressed: _onClear,
                     )
                   else
-                    const Padding(
-                      padding: EdgeInsets.only(right: 12),
-                      child: Icon(Icons.mic, color: StreamPalette.searchIconHint, size: 20),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 12),
+                      child: Icon(
+                        Icons.mic,
+                        color: isDark ? StreamPalette.searchIconHint : const Color(0xFF8E8E93),
+                        size: 20,
+                      ),
                     ),
                 ],
               ),
@@ -186,7 +200,11 @@ class _ExploreScreenState extends State<ExploreScreen> {
                             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                             child: Text(
                               headerTitle,
-                              style: StreamTypography.headline.copyWith(fontSize: 20),
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: theme.colorScheme.onSurface,
+                              ),
                             ),
                           );
                         }

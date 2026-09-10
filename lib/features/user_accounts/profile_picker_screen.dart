@@ -15,8 +15,9 @@ class ProfilePickerScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
-      backgroundColor: StreamPalette.background,
+      backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -37,7 +38,7 @@ class ProfilePickerScreen extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {},
-            icon: const Icon(Icons.edit, size: 22, color: StreamPalette.textPrimary),
+            icon: Icon(Icons.edit, size: 22, color: theme.colorScheme.onSurface),
           ),
           const SizedBox(width: 8),
         ],
@@ -88,7 +89,7 @@ class ProfilePickerScreen extends StatelessWidget {
                     Text(
                       'Add Profile',
                       style: StreamTypography.body.copyWith(
-                        color: StreamPalette.textPrimary,
+                        color: theme.colorScheme.onSurface,
                         fontWeight: FontWeight.w500,
                       ),
                     ),

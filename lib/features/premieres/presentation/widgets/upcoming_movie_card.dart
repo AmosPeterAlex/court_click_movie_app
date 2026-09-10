@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:court_click_movie_app/features/discover/domain/media_item.dart';
 import 'package:court_click_movie_app/foundation/components/media_thumbnail.dart';
 import 'package:court_click_movie_app/foundation/theme/stream_palette.dart';
-import 'package:court_click_movie_app/foundation/theme/stream_typography.dart';
 
 class UpcomingMovieCard extends StatefulWidget {
   const UpcomingMovieCard({
@@ -23,6 +22,8 @@ class _UpcomingMovieCardState extends State<UpcomingMovieCard> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return GestureDetector(
       onTap: widget.onTap,
       child: Container(
@@ -53,7 +54,7 @@ class _UpcomingMovieCardState extends State<UpcomingMovieCard> {
                         ? Icons.notifications_active_rounded
                         : Icons.notifications_none_rounded,
                     label: _isReminded ? 'Reminded' : 'Remind Me',
-                    color: _isReminded ? StreamPalette.primary : Colors.white,
+                    color: _isReminded ? StreamPalette.primary : theme.colorScheme.onSurface,
                     onTap: () {
                       setState(() => _isReminded = !_isReminded);
                       ScaffoldMessenger.of(context).showSnackBar(
@@ -72,7 +73,7 @@ class _UpcomingMovieCardState extends State<UpcomingMovieCard> {
                   _buildActionBtn(
                     icon: Icons.share_rounded,
                     label: 'Share',
-                    color: Colors.white,
+                    color: theme.colorScheme.onSurface,
                     onTap: () {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
@@ -96,25 +97,30 @@ class _UpcomingMovieCardState extends State<UpcomingMovieCard> {
                   // Premiere date subtitle
                   Text(
                     widget.item.formattedPremiereDate,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
-                      color: StreamPalette.textSecondary,
+                      color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
                     ),
                   ),
                   const SizedBox(height: 6),
                   // Title
                   Text(
                     widget.item.title,
-                    style: StreamTypography.titleLarge.copyWith(fontSize: 18),
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: theme.colorScheme.onSurface,
+                    ),
                   ),
                   const SizedBox(height: 8),
                   // Synopsis / overview
                   if (widget.item.overview.isNotEmpty)
                     Text(
                       widget.item.overview,
-                      style: StreamTypography.bodySmall.copyWith(
-                        color: StreamPalette.textSecondary,
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
                         height: 1.4,
                       ),
                       maxLines: 3,
@@ -124,10 +130,10 @@ class _UpcomingMovieCardState extends State<UpcomingMovieCard> {
                   // Bullet separated genres
                   Text(
                     widget.item.formattedGenres,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 11,
                       fontWeight: FontWeight.w500,
-                      color: Colors.white,
+                      color: theme.colorScheme.onSurface.withValues(alpha: 0.8),
                       letterSpacing: 0.2,
                     ),
                   ),

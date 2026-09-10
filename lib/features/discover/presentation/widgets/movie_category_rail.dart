@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:court_click_movie_app/features/discover/domain/media_item.dart';
 import 'package:court_click_movie_app/foundation/components/media_thumbnail.dart';
 import 'package:court_click_movie_app/foundation/theme/stream_palette.dart';
-import 'package:court_click_movie_app/foundation/theme/stream_typography.dart';
 
 class MovieCategoryRail extends StatelessWidget {
   const MovieCategoryRail({
@@ -29,7 +28,11 @@ class MovieCategoryRail extends StatelessWidget {
           padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
           child: Text(
             title,
-            style: StreamTypography.sectionHeader.copyWith(fontSize: 16),
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
           ),
         ),
         SizedBox(

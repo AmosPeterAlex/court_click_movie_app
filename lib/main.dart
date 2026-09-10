@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'core/service_locator/app_injector.dart';
+import 'features/user_accounts/bloc/active_profile_cubit.dart';
 import 'foundation/helpers/debug_tracer.dart';
 import 'foundation/theme/stream_theme.dart';
 import 'foundation/theme/theme_cubit.dart';
@@ -19,8 +20,11 @@ class CourtClickMovieApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<ThemeCubit>(
-      create: (_) => sl<ThemeCubit>(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<ThemeCubit>.value(value: sl<ThemeCubit>()),
+        BlocProvider<ActiveProfileCubit>.value(value: sl<ActiveProfileCubit>()),
+      ],
       child: BlocBuilder<ThemeCubit, ThemeMode>(
         builder: (context, themeMode) {
           return MaterialApp.router(

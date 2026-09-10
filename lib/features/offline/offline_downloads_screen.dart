@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../foundation/theme/stream_palette.dart';
-import '../../foundation/theme/stream_typography.dart';
 
 class OfflineDownloadsScreen extends StatelessWidget {
   const OfflineDownloadsScreen({
@@ -12,17 +11,20 @@ class OfflineDownloadsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
     return Scaffold(
-      backgroundColor: StreamPalette.background,
+      backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: const Text(
+        title: Text(
           'Smart Downloads',
           style: TextStyle(
             fontSize: 15,
             fontWeight: FontWeight.w400,
-            color: StreamPalette.textPrimary,
+            color: theme.colorScheme.onSurface,
           ),
         ),
       ),
@@ -33,13 +35,18 @@ class OfflineDownloadsScreen extends StatelessWidget {
           children: [
             Text(
               'Introducing Downloads For You',
-              style: StreamTypography.headline.copyWith(fontSize: 20),
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: theme.colorScheme.onSurface,
+              ),
             ),
             const SizedBox(height: 12),
             Text(
               'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sit quam dui, vivamus bibendum ut. A morbi mi tortor ut felis non accumsan accumsan quis. Massa, id ut ipsum aliquam enim non posuere pulvinar diam.',
-              style: StreamTypography.bodySmall.copyWith(
-                color: StreamPalette.textSecondary,
+              style: TextStyle(
+                color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
+                fontSize: 13,
                 height: 1.45,
               ),
             ),
@@ -48,15 +55,15 @@ class OfflineDownloadsScreen extends StatelessWidget {
               child: Container(
                 width: 230,
                 height: 230,
-                decoration: const BoxDecoration(
-                  color: StreamPalette.placeholderCircle,
+                decoration: BoxDecoration(
+                  color: isDark ? StreamPalette.placeholderCircle : const Color(0xFFE5E5EA),
                   shape: BoxShape.circle,
                 ),
-                child: const Center(
+                child: Center(
                   child: Icon(
                     Icons.download_rounded,
                     size: 64,
-                    color: StreamPalette.textHint,
+                    color: isDark ? StreamPalette.textHint : const Color(0xFF8E8E93),
                   ),
                 ),
               ),
@@ -93,13 +100,13 @@ class OfflineDownloadsScreen extends StatelessWidget {
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
                   decoration: BoxDecoration(
-                    color: StreamPalette.secondaryButtonBg,
+                    color: isDark ? StreamPalette.secondaryButtonBg : const Color(0xFFE5E5EA),
                     borderRadius: BorderRadius.circular(3),
                   ),
-                  child: const Text(
+                  child: Text(
                     'Find Something to Download',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: theme.colorScheme.onSurface,
                       fontSize: 14,
                       fontWeight: FontWeight.w700,
                     ),

@@ -9,6 +9,9 @@ import 'package:court_click_movie_app/features/premieres/bloc/premieres_bloc.dar
 import 'package:court_click_movie_app/features/user_accounts/profile_picker_screen.dart';
 import 'package:court_click_movie_app/routing/main_scaffold.dart';
 
+import 'package:court_click_movie_app/features/user_accounts/bloc/active_profile_cubit.dart';
+import 'package:court_click_movie_app/foundation/theme/theme_cubit.dart';
+
 abstract final class NavigationGraph {
   static final GoRouter router = GoRouter(
     initialLocation: '/',
@@ -39,7 +42,10 @@ abstract final class NavigationGraph {
       GoRoute(
         path: '/main',
         pageBuilder: (context, state) {
-          final profileName = (state.extra as String?) ?? 'Emenalo';
+          final profileName = (state.extra as String?) ?? 'User 1';
+          if (state.extra != null) {
+            sl<ActiveProfileCubit>().selectProfileByName(profileName);
+          }
           return CustomTransitionPage(
             key: state.pageKey,
             child: MultiBlocProvider(
@@ -52,6 +58,12 @@ abstract final class NavigationGraph {
                 ),
                 BlocProvider<PremieresBloc>(
                   create: (_) => sl<PremieresBloc>(),
+                ),
+                BlocProvider<ThemeCubit>.value(
+                  value: sl<ThemeCubit>(),
+                ),
+                BlocProvider<ActiveProfileCubit>.value(
+                  value: sl<ActiveProfileCubit>(),
                 ),
               ],
               child: MainScaffold(profileName: profileName),

@@ -7,7 +7,7 @@ import '../features/settings/account_hub_screen.dart';
 import '../foundation/theme/stream_palette.dart';
 
 class MainScaffold extends StatefulWidget {
-  const MainScaffold({super.key, this.profileName = 'Emenalo'});
+  const MainScaffold({super.key, this.profileName = 'User 1'});
 
   final String profileName;
 
@@ -24,6 +24,9 @@ class _MainScaffoldState extends State<MainScaffold> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final navTheme = theme.bottomNavigationBarTheme;
+
     final screens = [
       DiscoverScreen(profileName: widget.profileName),
       const ExploreScreen(),
@@ -35,16 +38,17 @@ class _MainScaffoldState extends State<MainScaffold> {
     ];
 
     return Scaffold(
-      backgroundColor: StreamPalette.background,
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: IndexedStack(
         index: _currentIndex,
         children: screens,
       ),
       bottomNavigationBar: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
+          color: navTheme.backgroundColor,
           border: Border(
             top: BorderSide(
-              color: StreamPalette.bottomNavDivider,
+              color: theme.dividerColor,
               width: 1,
             ),
           ),
@@ -52,10 +56,10 @@ class _MainScaffoldState extends State<MainScaffold> {
         child: BottomNavigationBar(
           currentIndex: _currentIndex,
           onTap: _onTabSelected,
-          backgroundColor: StreamPalette.bottomNavBg,
+          backgroundColor: navTheme.backgroundColor,
           type: BottomNavigationBarType.fixed,
-          selectedItemColor: Colors.white,
-          unselectedItemColor: StreamPalette.textHint,
+          selectedItemColor: navTheme.selectedItemColor ?? StreamPalette.primary,
+          unselectedItemColor: navTheme.unselectedItemColor ?? StreamPalette.textHint,
           selectedFontSize: 10,
           unselectedFontSize: 10,
           items: [
@@ -150,13 +154,20 @@ class _MainScaffoldState extends State<MainScaffold> {
     required IconData fallbackIcon,
     required bool isSelected,
   }) {
-    final color = isSelected ? Colors.white : StreamPalette.textHint;
-    return Image.asset(
-      assetPath,
-      width: 22,
-      height: 22,
-      color: color,
-      errorBuilder: (_, _, _) => Icon(fallbackIcon, size: 22, color: color),
+    return Builder(
+      builder: (context) {
+        final navTheme = Theme.of(context).bottomNavigationBarTheme;
+        final color = isSelected
+            ? (navTheme.selectedItemColor ?? Colors.white)
+            : (navTheme.unselectedItemColor ?? StreamPalette.textHint);
+        return Image.asset(
+          assetPath,
+          width: 22,
+          height: 22,
+          color: color,
+          errorBuilder: (_, _, _) => Icon(fallbackIcon, size: 22, color: color),
+        );
+      },
     );
   }
 }

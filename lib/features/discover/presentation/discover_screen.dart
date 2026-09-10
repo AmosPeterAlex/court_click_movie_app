@@ -8,12 +8,14 @@ import 'package:court_click_movie_app/features/discover/presentation/widgets/cir
 import 'package:court_click_movie_app/features/discover/presentation/widgets/hero_featured_banner.dart';
 import 'package:court_click_movie_app/features/discover/presentation/widgets/movie_category_rail.dart';
 import 'package:court_click_movie_app/features/discover/presentation/widgets/movie_detail_sheet.dart';
+import 'package:court_click_movie_app/features/user_accounts/bloc/active_profile_cubit.dart';
+import 'package:court_click_movie_app/features/user_accounts/domain/user_account.dart';
 import 'package:court_click_movie_app/foundation/components/failure_banner.dart';
 import 'package:court_click_movie_app/foundation/components/skeleton_loader.dart';
 import 'package:court_click_movie_app/foundation/theme/stream_palette.dart';
 
 class DiscoverScreen extends StatefulWidget {
-  const DiscoverScreen({super.key, this.profileName = 'Emenalo'});
+  const DiscoverScreen({super.key, this.profileName = 'User 1'});
 
   final String profileName;
 
@@ -40,7 +42,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: StreamPalette.background,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: BlocBuilder<DiscoverBloc, DiscoverState>(
         builder: (context, state) {
           if (state is DiscoverLoading) {
@@ -94,6 +96,17 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                     CircularPreviewsRail(
                       items: state.trendingWeekly,
                       onItemTap: _showItemDetails,
+                    ),
+
+                    // Continue Watching for Active Profile
+                    BlocBuilder<ActiveProfileCubit, UserAccount>(
+                      builder: (context, activeAccount) {
+                        return MovieCategoryRail(
+                          title: 'Continue Watching for ${activeAccount.name}',
+                          items: state.inTheaters.isNotEmpty ? state.inTheaters : state.popularNow,
+                          onItemTap: _showItemDetails,
+                        );
+                      },
                     ),
 
                     // Popular on Netflix

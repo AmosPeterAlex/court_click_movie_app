@@ -5,17 +5,17 @@ abstract final class DefaultAccounts {
   static const List<UserAccount> profiles = [
     UserAccount(
       id: 'profile_1',
-      name: 'Emenalo',
+      name: 'User 1',
       color: StreamPalette.profileBlue,
     ),
     UserAccount(
       id: 'profile_2',
-      name: 'Onyeka',
+      name: 'User 2',
       color: StreamPalette.profileYellow,
     ),
     UserAccount(
       id: 'profile_3',
-      name: 'Thelma',
+      name: 'User 3',
       color: StreamPalette.profileRed,
     ),
     UserAccount(

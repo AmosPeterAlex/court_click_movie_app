@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:court_click_movie_app/features/discover/domain/media_item.dart';
 import 'package:court_click_movie_app/foundation/components/media_thumbnail.dart';
 import 'package:court_click_movie_app/foundation/theme/stream_palette.dart';
-import 'package:court_click_movie_app/foundation/theme/stream_typography.dart';
 
 class CircularPreviewsRail extends StatelessWidget {
   const CircularPreviewsRail({
@@ -25,7 +24,11 @@ class CircularPreviewsRail extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
           child: Text(
             'Previews',
-            style: StreamTypography.sectionHeader.copyWith(fontSize: 16),
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
           ),
         ),
         SizedBox(
