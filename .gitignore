@@ -53,3 +53,6 @@ lib/PROJECT_REWRITE_BLUEPRINT.md
 
 # API Configuration and Secrets
 config.json
+
+# Local architecture notes
+recreate_folder.md
